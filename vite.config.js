@@ -8,6 +8,6 @@ export default defineConfig ({
   publicDir: '../../../public',
   root: 'src/js/browser',
   server: {
-    port: 2000,
+    port: 2001,
   },
 });

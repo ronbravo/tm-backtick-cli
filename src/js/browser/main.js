@@ -1,4 +1,4 @@
-import './ui/backtick-cli/index.js';
+import './ui/index.js';
 
 const shared = {
   setup: false,

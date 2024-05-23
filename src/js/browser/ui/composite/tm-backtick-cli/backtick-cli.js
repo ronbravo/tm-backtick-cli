@@ -1,5 +1,7 @@
+import mustache from 'mustache';
 import template from './backtick-cli.html?raw';
 import './backtick-cli.less';
+import 'boxicons/css/boxicons.min.css';
 
 export const TAG_NAME = 'backtick-cli';
 
@@ -16,7 +18,10 @@ export class BacktickCli extends HTMLElement {
     this.innerHTML = template;
 
     document.addEventListener ('keyup', (event) => {
-      if (event.key === '`') {
+      if (event.code === 'Escape' && this.data.isOpen) {
+        toggleActive ({ dom: this });
+      }
+      else if (event.key === '`' && !this.data.isOpen) {
         toggleActive ({ dom: this });
       }
       else if (event.key === ':' && !this.data.isOpen) {
@@ -52,6 +57,7 @@ function processInput (details = {}) {
   value = target.value.trim ();
 
   // TEST: value = ':tag a    a a    a      a, b#@  b@#    b!123, c12,  d   d323##';
+  value = ':tag a    a a    a      a, b#@  b@#    b!123, c12,  d   d323##';
 
   index = value.indexOf (' ');
   command = value.substring (0, index).trim ();
@@ -60,11 +66,17 @@ function processInput (details = {}) {
 
   target.value = '';
   dom.data.prefix = '';
-  dom.classList.toggle (MINIMIZED_STYLE);
+
+  // NOTE: adding slight delay before hiding window
+  // so that added elements can be scrolled into view
+  setTimeout (() => {
+    dom.classList.toggle (MINIMIZED_STYLE);
+  }, 1);
 
   // temp
   if (command) {
-    action ({ name: 'backtick.process.command', data: {
+    action ({ name: 'app.backtick.command', data: {
+      dom,
       command,
       tags: value.split (','),
       target: {
@@ -75,6 +87,28 @@ function processInput (details = {}) {
   }
 }
 
+function temp_addHistory (details = {}) {
+  let { command, dom } = details;
+  let el, entry, target;
+  if (dom) {
+    // console.log (details);
+    entry = details;
+    el = document.createElement ('div');
+    el.classList.add ('history', 'entry');
+    el.innerHTML = mustache.render (ENTRY_TEMPLATE, details);
+
+    target = dom.querySelector (':scope > .body #history');
+    target.appendChild (el);
+
+    target.scrollTop = target.scrollHeight;
+    el.scrollIntoView ();
+  }
+}
+
+const ENTRY_TEMPLATE = `
+<span class="command">{{ command }}</span><span class="seperator"> - </span>{{#target.tags}}<span  class="tag" href="#">{{ . }}</span>{{/target.tags}}
+`.trim ();
+
 // ---------------------------
 // handlers
 const shared = {
@@ -83,7 +117,9 @@ const shared = {
 
 function action (details = {}) {
   let { name } = details;
-  if (name === 'backtick.process.command') { processCommand (details.data); }
+  if (name === 'app.backtick.command') { processCommand (details.data); }
+
+  if (name === 'ui.backtick.command') { temp_addHistory (details.data); }
 }
 
 function addToHistory (details = {}) {
@@ -91,19 +127,16 @@ function addToHistory (details = {}) {
 
 function processCommand (details = {}) {
   let { command, tags, target } = details;
-  console.log ('here:', details);
+  // console.log ('here:', details);
   if (command === ':tag') {
     processTags (details);
   }
 }
 
 function processTags (details = {}) {
-  let { tags, target } = details;
-  let block, list;
-  block = {
-    target,
-    tags: [],
-  }
+  let { command, tags, target } = details;
+  let list;
+
 
   list = [];
   tags.forEach ((tag) => {
@@ -112,8 +145,8 @@ function processTags (details = {}) {
       list = list.concat (tag);
     }
   });
-  block.tags.push.apply (block.tags, list);
-  console.log (JSON.stringify (block, null, 2));
+  details.target.tags = list;
+  action ({ name: 'ui.backtick.command', data: details });
 }
 
 function slugify (details = {}) {
