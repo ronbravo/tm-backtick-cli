@@ -14,28 +14,41 @@ export class BacktickCli extends HTMLElement {
   }
 
   connectedCallback () {
-    this.classList.add (TAG_NAME, 'component', MINIMIZED_STYLE);
-    this.innerHTML = template;
+    let dom;
+    dom = this;
+    dom.classList.add (TAG_NAME, 'component', MINIMIZED_STYLE);
+    dom.innerHTML = template;
 
+    dom.querySelector ('#prompt').addEventListener ('keydown', (event) => {
+      if (event.key === '`') {
+        toggleActive ({ deactivate: true, dom });
+        event.preventDefault ();
+      }
+    });
     document.addEventListener ('keyup', (event) => {
-      if (event.code === 'Escape' && this.data.isOpen) {
-        toggleActive ({ dom: this });
+      if (event.code === 'Escape' && dom.data.isOpen) {
+        toggleActive ({ dom });
       }
-      else if (event.key === '`' && !this.data.isOpen) {
-        toggleActive ({ dom: this });
+      else if (event.key === '`') {
+        toggleActive ({ dom });
       }
-      else if (event.key === ':' && !this.data.isOpen) {
-        toggleActive ({ dom: this, prefix: ':tag ' });
+      else if (event.key === ':' && !dom.data.isOpen) {
+        toggleActive ({ dom, prefix: ':tag ' });
       }
-      else if (event.key === 'Enter' && this.data.isOpen) {
-        processInput ({ dom: this });
+      else if (event.key === 'Enter' && dom.data.isOpen) {
+        processInput ({ dom });
       }
-    })
+    });
   }
 }
 
 function toggleActive (details = {}) {
-  let { dom, prefix = '' } = details;
+  let { dom, deactivate = false, prefix = '' } = details;
+  if (deactivate === true) {
+    dom.classList.add (MINIMIZED_STYLE);
+    dom.data.isOpen = false;
+  }
+
   dom.data.isOpen = dom.classList.contains (MINIMIZED_STYLE);
   if (dom.data.isOpen) {
     setTimeout (() => {

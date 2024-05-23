@@ -1,5 +1,5 @@
 
-## Terms
+## Component Composite Design Terminology
 
 These are the commone design concepts and terms at a high level. They provide a way to think about how to organize a component when creating it.
 
