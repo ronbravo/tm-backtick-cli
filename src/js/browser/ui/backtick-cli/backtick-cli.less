@@ -1,0 +1,60 @@
+.backtick-cli.component {
+  background-color: #fff;
+  border: 1px solid #aaa9a9;
+  bottom: 20px;
+  // font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: monospace;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 480px;
+  max-width: 640px;
+  padding: 16px;
+  position: fixed;
+  right: 10%;
+  width: 100%;
+  z-index: 9999;
+}
+
+.backtick-cli.component div.header h2 {
+  font-size: 12px;
+}
+.backtick-cli.component .header .title {
+  cursor: pointer;
+  margin: 4px 4px;
+  user-select: none;
+}
+.backtick-cli.component .body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+}
+.backtick-cli.component .body #history {
+  // border: 1px solid red;
+  flex-grow: 2;
+}
+.backtick-cli.component .body #prompt-area {
+  // border: 1px solid red;
+  display: flex;
+}
+.backtick-cli.component .body #prompt {
+  border: 1px solid grey;
+  font-family: monospace;
+  font-size: 18px;
+  outline: none;
+  padding: 8px;
+  width: 100%;
+}
+
+// -----------------------------------------------------------
+// Minimized
+.backtick-cli.component.minimized {
+  bottom: 0;
+  height: auto;
+  padding: 4px;
+  width: auto;
+}
+.backtick-cli.component.minimized .body,
+.backtick-cli.component.minimized .footer {
+  display: none;
+}
