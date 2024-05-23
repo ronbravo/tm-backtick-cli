@@ -3,12 +3,9 @@ import restana from 'restana';
 import serveStatic from 'serve-static';
 import { fileURLToPath } from 'url';
 import { join } from 'path';
-import { setupCors } from './cors/index.js';
 
-function mountInfo (details = {}) {
-  let { api, app } = details;
-  app.get (`${api}/status`, (req, res) => res.send ({ code: 200, message: 'ok' }));
-}
+import { mountApi } from './mount/index.js';
+import { setupCors } from './cors/index.js';
 
 async function setup (details = {}) {
   let { app, base } = details;
@@ -16,8 +13,8 @@ async function setup (details = {}) {
   setupCors (details);
   app.use (bodyParser.json ());
 
-  app.use (serveStatic (join (base, 'dist')));
   app.use (serveStatic (join (base, 'public')));
+  app.use (serveStatic (join (base, 'dist')));
 }
 
 export async function startServer (details = {}) {
@@ -38,7 +35,8 @@ export async function startServer (details = {}) {
   details.app = app;
 
   setup (details);
-  mountInfo (details);
+
+  mountApi (details);
 
   app.start (port);
   console.log (`- server started on port:`, port);
