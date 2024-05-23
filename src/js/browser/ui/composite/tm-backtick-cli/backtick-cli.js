@@ -3,7 +3,7 @@ import template from './backtick-cli.html?raw';
 import './backtick-cli.less';
 import 'boxicons/css/boxicons.min.css';
 
-export const TAG_NAME = 'backtick-cli';
+export const TAG_NAME = 'tm-backtick-cli';
 
 const MINIMIZED_STYLE = 'minimized';
 

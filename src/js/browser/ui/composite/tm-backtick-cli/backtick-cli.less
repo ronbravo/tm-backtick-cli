@@ -1,6 +1,6 @@
 // * { all: initial }
 
-.backtick-cli.component {
+.tm-backtick-cli.component {
   background-color: #fff;
   border: 1px solid #aaa9a9;
   bottom: 20px;
@@ -10,6 +10,7 @@
   max-width: 640px;
   padding: 16px;
   position: fixed;
+  // left: 5%;
   right: 10%;
   width: 100%;
   z-index: 9999;
@@ -20,41 +21,41 @@
   grid-template-rows: auto 1fr auto;
 }
 
-.backtick-cli.component div.header {
+.tm-backtick-cli.component div.header {
   // border: 1px solid green;
 }
-.backtick-cli.component div.header header {
+.tm-backtick-cli.component div.header header {
   align-items: center;
   display: flex;
   justify-content: flex-start;
 }
-.backtick-cli.component div.header h2 {
+.tm-backtick-cli.component div.header h2 {
   font-size: 12px;
 }
-.backtick-cli.component .header .title {
+.tm-backtick-cli.component .header .title {
   cursor: pointer;
   margin: 4px 4px;
   user-select: none;
 }
-.backtick-cli.component .body {
+.tm-backtick-cli.component .body {
   // border: 1px solid red;
   border: 1px solid grey;
   overflow: auto;
   grid-row: 2 / 2;
 }
-.backtick-cli.component .body #history {
+.tm-backtick-cli.component .body #history {
   padding: 0;
   padding-bottom: 40px;
 }
-.backtick-cli.component .body #history .history.entry {
+.tm-backtick-cli.component .body #history .history.entry {
   border-bottom: 1px dotted grey;
   flex-grow: 2;
   padding: 0;
 }
-.backtick-cli.component .body #history .history.entry:nth-child(1) {
+.tm-backtick-cli.component .body #history .history.entry:nth-child(1) {
   // border-bottom: none;
 }
-.backtick-cli.component .body #history .history.entry span {
+.tm-backtick-cli.component .body #history .history.entry span {
   display: inline-block;
   padding: 12px 8px;
   user-select: none;
@@ -64,19 +65,19 @@
     cursor: pointer;
   }
 }
-.backtick-cli.component .body #history .history.entry span.seperator {
+.tm-backtick-cli.component .body #history .history.entry span.seperator {
   display: none;
 }
-.backtick-cli.component .body #history .history.entry span.tag {
+.tm-backtick-cli.component .body #history .history.entry span.tag {
   border-left: 0px dotted black;
 }
-.backtick-cli.component .body #history .history.entry span.tag:nth-child(1) {
+.tm-backtick-cli.component .body #history .history.entry span.tag:nth-child(1) {
   border-left: 2px dotted red;
 }
-.backtick-cli.component .footer #prompt-area {
+.tm-backtick-cli.component .footer #prompt-area {
   display: flex;
 }
-.backtick-cli.component .footer #prompt {
+.tm-backtick-cli.component .footer #prompt {
   border: 1px solid grey;
   font-family: monospace;
   font-size: 18px;
@@ -84,23 +85,30 @@
   padding: 8px;
   width: 100%;
 }
-.backtick-cli.component .footer {
+.tm-backtick-cli.component .footer {
   // border: 1px solid blue;
 }
 
 // -----------------------------------------------------------
 // Minimized
-.backtick-cli.component.minimized {
-  bottom: 0;
+.tm-backtick-cli.component.minimized {
+  bottom: 0px;
   height: auto;
+  // left: 10px;
   padding: 4px;
   width: auto;
   gap: 0px;
 }
-.backtick-cli.component.minimized .header .title {
+.tm-backtick-cli.component.minimized .header .title {
   display: none;
 }
-.backtick-cli.component.minimized .body,
-.backtick-cli.component.minimized .footer {
+.tm-backtick-cli.component.minimized .body,
+.tm-backtick-cli.component.minimized .footer {
   display: none;
+}
+
+i.tm-icon {
+  box-sizing: content-box;
+  padding: 4px;
+  width: auto;
 }

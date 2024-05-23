@@ -1,9 +1,9 @@
 import bodyParser from 'body-parser';
-import cors from 'cors';
 import restana from 'restana';
 import serveStatic from 'serve-static';
 import { fileURLToPath } from 'url';
 import { join } from 'path';
+import { setupCors } from './cors/index.js';
 
 function mountInfo (details = {}) {
   let { api, app } = details;
@@ -42,31 +42,4 @@ export async function startServer (details = {}) {
 
   app.start (port);
   console.log (`- server started on port:`, port);
-}
-
-
-// -------------------------------------------------------------
-// handle cors
-
-function handleCors (origin, callback) {
-  console.log ('ORIGIN:', origin);
-  callback (null, true);
-  // callback ({
-  //   "origin": origin,
-  //   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-  //   "preflightContinue": false,
-  //   "optionsSuccessStatus": 204
-  // })
-}
-
-function handleCorsPreFlight () {
-  console.log ('arguments:', arguments);
-}
-
-function setupCors (details = {}) {
-  let { app } = details;
-
-  app.use (cors ());
-  // app.options ('*', handleCorsPreFlight) // enable pre-flight request for DELETE request
-  // app.use (cors ({ origin: handleCors }));
 }
